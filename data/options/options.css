@@ -1,0 +1,78 @@
+body {
+	background-color: #DDFFFF;
+}
+
+h2 {
+	font-size: 90;
+}
+
+table {
+	text-align: center;
+	border-collapse: collapse;
+}
+
+td, th {
+	padding: 5px;
+	border: 1px solid gray;
+}
+
+#shortcuts_table td, #shortcuts_table th, #bookmarks_table td, #bookmarks_table th {
+	border: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+input[type="submit"], #import_options {
+	float: right;
+	clear: both;
+}
+
+#JjalsTableDiv {
+	clear: right;
+}
+
+section {
+	float: left;
+	clear: left;
+}
+
+footer {
+	font-size: 90%;
+	float: right;
+	clear: both;
+}
+
+.jjal {
+	height:100px;
+	max-width: 200px;
+	width:auto;
+}
+
+#addJjal {
+	font-size: 180%;
+	float: right;
+}
+
+#navigator {
+	background-color: #E0E0E0;
+	padding: 10px;
+	position: fixed;
+	right: 0px;
+	top: 0px;
+	float: right;
+}
+
+#navigator > a {
+	text-decoration: underline;
+}
+
+#add_bookmark {
+	float: left;
+}
+
+textarea {
+	width: 500px;
+	height: 200px;
+}
