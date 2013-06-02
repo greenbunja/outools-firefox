@@ -762,19 +762,26 @@ self.port.on("getData", function(data) {
 			addUser(commentWriters[i]);
 		}
 
-		var newUser = $('<input></input>')
-					  .attr("type", "text")
-					  .appendTo(lotteryDiv);
+		var addForm = $('<form></form>')
+					  .attr('action', 'javascript:;')
+					  .appendTo(lotteryDiv)
+					  .submit(function() {
+			var newUser = this.new_user;
+			addUser(newUser.value);
+			newUser.value = '';
+		});
+
+		$('<input></input>')
+		.attr('name', 'new_user')
+		.attr("type", "text")
+		.appendTo(addForm);
 
 		$('<input></input>')
 		.attr("type", "submit")
 		.val("추가")
-		.appendTo(lotteryDiv)
-		.click(function () {
-			addUser(newUser.val());
-		});
+		.appendTo(addForm);
 
-		lotteryDiv.append('<br><br>');
+		addForm.append('<br><br>');
 
 		var winnerSpan = $('<span></span>').appendTo(lotteryDiv);
 
