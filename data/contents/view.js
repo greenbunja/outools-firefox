@@ -51,26 +51,8 @@ self.port.on("getData", function(data) {
 		});
 	}
 
-	function addButtonsSpans()
+	function addReplyButtonsSpans()
 	{
-		var writerDiv = $(".writerInfoContents");
-
-		var writerName = writerDiv.find("div > a > font > b").text();
-
-		if (writerName != "") {
-			var writerNumber = writerDiv.find("div > a").attr("href").slice(24);
-
-			var writerIp = writerDiv.children(":eq(5)").html();
-			writerIp = writerIp.slice(5);
-
-			var buttonsSpan = $('<span></span>')
-							  .addClass("buttonsSpan")
-					  		  .attr("username", writerName)
-							  .attr("usernum", writerNumber)
-							  .attr("ip", writerIp)
-							  .appendTo(writerDiv.children(":eq(1)"));
-		}
-
 		$(".memoInfoDiv").each(function() {
 			var $this = $(this);
 
@@ -90,6 +72,27 @@ self.port.on("getData", function(data) {
 								  .appendTo($this);
 			}
 		});
+	} 
+
+	function addButtonsSpans()
+	{
+		var writerDiv = $(".writerInfoContents");
+
+		var writerName = writerDiv.find("div > a > font > b").text();
+
+		if (writerName != "") {
+			var writerNumber = writerDiv.find("div > a").attr("href").slice(24);
+
+			var writerIp = writerDiv.children(":eq(5)").html();
+			writerIp = writerIp.slice(5);
+
+			var buttonsSpan = $('<span></span>')
+							  .addClass("buttonsSpan")
+					  		  .attr("username", writerName)
+							  .attr("usernum", writerNumber)
+							  .attr("ip", writerIp)
+							  .appendTo(writerDiv.children(":eq(1)"));
+		}
 
 		addOKListButtonsDivs();
 	}
@@ -223,13 +226,21 @@ self.port.on("getData", function(data) {
 		});
 	}
 
-	function showUsermemos(usermemos)
+	function showUsermemos(usermemos, parent)
 	{
+		if (usermemos == undefined || usermemos == null) {
+			usermemos = storage.usermemos;
+		}
+
 		if ($.isEmptyObject(usermemos)) {
 		    return;
 		}
 
-		$("a:has(font > b)").each(function(index) {
+		if (!parent) {
+		    parent = "";
+		}
+
+		$(parent + " a:has(font > b)").each(function(index) {
 			var $this = $(this);
 			var usernum = $this.attr("href").split('mn=')[1];
 			var usermemo = usermemos[usernum];
@@ -596,6 +607,31 @@ self.port.on("getData", function(data) {
 		// 		addBlockButtons(blockedUsers, '#ok_layer');
 		// 	}
 		// });
+
+		$('#moreReplyButton').click(function() {
+			if (!memoEnable && !blockEnable) {
+			    return;
+			}
+
+			var id = setInterval(function() {
+				if ($('#addedReplyDiv > .memoContainerDiv').length > 0) {
+					clearInterval(id);
+					addReplyButtonsSpans();
+					if (memoEnable) {
+						if (usermemos != undefined) {
+							showUsermemos(storage.usermemos, '#addedReplyDiv > .memoContainerDiv');
+						}
+					    addMemoButtons('#addedReplyDiv > .memoContainerDiv');
+					}
+					if (blockEnable) {
+						if (blockedUsers != undefined) {
+							showReplyBlockedUsers(storage.blockedUsers);
+						}
+						addBlockButtons(storage.blockedUsers, '#addedReplyDiv > .memoContainerDiv');
+					}
+				}
+			}, 100);
+		});
 
 		var usermemos = storage.usermemos;
 		if (usermemos == undefined) {
